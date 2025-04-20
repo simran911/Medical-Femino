@@ -39,9 +39,12 @@ Frontend : HTML/CSS/JavaScript
 ![Image](https://github.com/user-attachments/assets/08872364-0c0a-46ae-9a5c-96a6dc264d39)
 -Multilingual page
 ![Image](https://github.com/user-attachments/assets/113016e3-a8c7-4ba9-8a25-0d930d717c1b)
-![Image](https://github.com/user-attachments/assets/a8a49ae5-276b-4585-bcb1-e7527c1db119)
-![Image](https://github.com/user-attachments/assets/972f283e-b5e1-450c-b1b1-9ecb90ce06f8)
--Image and report Analyzer
+![Image](https://github.com/user-attachments/assets/87dae1c6-4b44-4a5f-89bc-59a06126a964)
+![Image](https://github.com/user-attachments/assets/fde3016a-aa5e-482f-a49a-0c4f997afcef)
+![Image](https://github.com/user-attachments/assets/29bc63ee-a49d-4f58-a389-d438efb012a0)
+![Image](https://github.com/user-attachments/assets/74e34b40-827c-4ceb-89b0-67025f835ac4)
+![Image](https://github.com/user-attachments/assets/20b9be60-fc76-4ea1-aa14-04a159b0a9cf)
+![Image](https://github.com/user-attachments/assets/e102dfe6-a5f4-4e14-bcc2-4cfc8e5647db)
 
 
 ## 🚀 Getting Started
