@@ -27,13 +27,10 @@
 ---
 
 ## 🛠️ Tech Stack
-
-- **LLMs**: OpenAI GPT-4, LangChain
-- **Computer Vision**: LLaMaParser
-- **Backend**: Python, Flask, FastAPI
-- **Frontend**: HTML, CSS, JavaScript
-- **Security**: Image encryption (e.g., Fernet)
-- **Alerts**: Twilio/Fast2SMS, Location APIs
+AI & NLP : OpenAI GPT-4 ,LangChain
+LLaMaParser : PromptLayer, ChromaDB for context management
+Backend : Python, Flask , FastAPI for certain LLM routes
+Frontend : HTML/CSS/JavaScript
 
 ---
 
