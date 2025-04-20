@@ -26,11 +26,11 @@
 
 ---
 
-## 🛠️ Tech Stack
-AI & NLP : OpenAI GPT-4 ,LangChain
-LLaMaParser : PromptLayer, ChromaDB for context management
-Backend : Python, Flask , FastAPI for certain LLM routes
-Frontend : HTML/CSS/JavaScript
+### 🛠️ Tech Stack
+-AI & NLP : OpenAI GPT-4 ,LangChain
+-LLaMaParser : PromptLayer, ChromaDB for context management
+-Backend : Python, Flask , FastAPI for certain LLM routes
+-Frontend : HTML/CSS/JavaScript
 
 ---
 
