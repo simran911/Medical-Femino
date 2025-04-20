@@ -34,6 +34,9 @@ Frontend : HTML/CSS/JavaScript
 
 ---
 
+## Snapshots
+https://github.com/simran911/Medical-Femino/issues/1#issue-3006990911
+
 ## 🚀 Getting Started
 
 1. **Clone the Repository**
