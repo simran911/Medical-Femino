@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PadLove ❤️ Donate Pads for Girls</title>
+  
+  <style>
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #fff0f5;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  color: #ff66b3;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.donation-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+  background-color: #ffccdd;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(255, 102, 179, 0.2);
+}
+
+.money-drop-zone {
+  width: 150px;
+  height: 150px;
+  background-color: #ff99cc;
+  border: 2px dashed #ff3385;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.coin {
+  font-size: 2em;
+  position: absolute;
+  top: -20px;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.pads-output {
+  width: 150px;
+  height: 150px;
+  background-color: #ffb3d9;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.pad {
+  font-size: 1.5em;
+  margin: 5px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.donation-form {
+  margin: 20px 0;
+}
+
+input, button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+input {
+  width: 150px;
+  margin-right: 10px;
+  border: 2px solid #ff66b3;
+}
+
+button {
+  background-color: #ff66b3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #ff3385;
+}
+
+.qr-section {
+  margin-top: 30px;
+}
+
+.qr-section img {
+  width: 150px;
+  height: 150px;
+  border: 5px solid #ffccdd;
+  border-radius: 10px;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 PadLove</h1>
+    <p class="subtitle">Donate to help girls access menstrual care!</p>
+    
+    <!-- Donation Box Animation -->
+    <div class="donation-box">
+      <div class="money-drop-zone" id="dropZone">
+        <p>Drop your donation here!</p>
+        <div class="coin" id="coin">💰</div>
+      </div>
+      <div class="pads-output" id="padsOutput">
+        <div class="pad">🩹</div>
+      </div>
+    </div>
+
+    <!-- Donation Form -->
+    <div class="donation-form">
+      <input type="number" id="donationAmount" placeholder="₹ / $ Amount" min="1">
+      <button id="donateBtn">Donate Now</button>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-section">
+      <p>Scan to donate:</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://padlove-donate.com" alt="QR Code">
+    </div>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+const coin = document.getElementById('coin');
+const padsOutput = document.getElementById('padsOutput');
+const donateBtn = document.getElementById('donateBtn');
+const donationAmount = document.getElementById('donationAmount');
+
+// Animate donation
+donateBtn.addEventListener('click', () => {
+  const amount = parseInt(donationAmount.value);
+  if (amount >= 1) {
+    animateDonation(amount);
+  } else {
+    alert("Please enter a valid amount!");
+  }
+});
+
+// Drag-and-drop animation (simulated)
+dropZone.addEventListener('click', () => {
+  animateDonation(5); // Default amount for demo
+});
+
+function animateDonation(amount) {
+  // Calculate number of pads (1 pad = $2 for demo)
+  const padCount = Math.floor(amount / 10);
+  
+  // Reset animation
+  coin.style.opacity = '1';
+  coin.style.top = '-20px';
+  
+  // Drop coin
+  setTimeout(() => {
+    coin.style.top = '50px';
+    coin.style.opacity = '0';
+  }, 100);
+  
+  // Generate pads after delay
+  setTimeout(() => {
+    padsOutput.innerHTML = '';
+    for (let i = 0; i < padCount; i++) {
+      const pad = document.createElement('div');
+      pad.className = 'pad';
+      pad.innerHTML = '🩹';
+      padsOutput.appendChild(pad);
+      
+      // Animate pads appearing
+      setTimeout(() => {
+        pad.style.opacity = '1';
+        pad.style.transform = 'translateY(0)';
+      }, i * 100);
+    }
+    
+    // Confetti effect (optional)
+    if (padCount > 0) {
+      alert(`Thank you! Your ₹${amount} donation provided ${padCount} pads!`);
+    }
+  }, 500);
+}
+  </script>
+</body>
+</html>

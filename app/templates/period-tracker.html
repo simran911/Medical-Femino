@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femino - Period Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        
+:root {
+    --primary-color: #ff6b8b;
+    --secondary-color: #ffb8c6;
+    --accent-color: #ff4757;
+    --dark-color: #6d214f;
+    --light-color: #fff5f7;
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #fff5f7;
+    --card-bg: #fff;
+    --navbar-bg: #fff;
+    --footer-bg: #6d214f;
+    --footer-text: #fff;
+}
+
+.dark-mode {
+    --primary-color: #ff6b8b;
+    --secondary-color: #ff8fa3;
+    --accent-color: #ff4757;
+    --dark-color: #e2b3c6;
+    --light-color: #1a0d14;
+    --text-color: #f0e6eb;
+    --text-light: #c9a8b9;
+    --bg-color: #1a0d14;
+    --card-bg: #2a1721;
+    --navbar-bg: #2a1721;
+    --footer-bg: #1a0d14;
+    --footer-text: #f0e6eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+/* Switcher */
+.switcher-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.switcher-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.switcher-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+}
+
+/* Main Content */
+.container {
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 2rem;
+}
+
+.tracker-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.tracker-header h2 {
+    font-size: 2.5rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.tracker-header p {
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Input Form */
+.input-form {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Simplified Dashboard Styles */
+.tracker-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+}
+
+.dashboard-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Cycle Graph Styles */
+.cycle-graph-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 1.5rem;
+}
+
+/* Cycle Info */
+.cycle-info {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.info-item {
+    font-size: 1rem;
+}
+
+.info-item strong {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    display: block;
+    margin: 0.3rem 0;
+}
+
+/* Key Dates Card */
+.date-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.date-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.date-item i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    width: 30px;
+    text-align: center;
+}
+
+.date-item strong {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--dark-color);
+}
+
+/* Quick Stats Card */
+.stat-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stat-box {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+    background: var(--light-color);
+    border-radius: 10px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* Symptoms & Notes Card */
+.symptom-tags {
+    min-height: 80px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.symptom-tag {
+    background: rgba(255, 107, 139, 0.2);
+    color: var(--dark-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.add-note-btn {
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 1px dashed var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-note-btn:hover {
+    background: rgba(255, 107, 139, 0.1);
+}
+
+/* Cycle History */
+.cycle-history {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 3rem;
+    display: none;
+}
+
+.cycle-history h3 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-item .label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.history-table th,
+.history-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.history-table th {
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 3rem 2rem 1rem;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 1.5rem 0;
+}
+
+.footer-links li {
+    margin: 0 1rem;
+}
+
+.footer-links a {
+    color: var(--footer-text);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--secondary-color);
+}
+
+.footer-bottom {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* Hindi font */
+.hindi {
+    font-family: 'Noto Sans Devanagari', 'Montserrat', sans-serif;
+}
+
+.hindi .tracker-header h2,
+.hindi .cycle-history h3,
+.hindi .logo h1,
+.hindi .dashboard-card h3 {
+    font-family: 'Noto Sans Devanagari', 'Playfair Display', serif;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin-top: 70px;
+    }
+
+    .tracker-header h2 {
+        font-size: 2rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .cycle-overview {
+        grid-column: span 1;
+    }
+
+    .cycle-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .stat-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .tracker-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .switcher-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .switcher-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+    </style>
+</head>
+
+<body class="light-mode">
+    <!-- Language and Theme Switcher -->
+    <div class="switcher-container">
+        <button id="themeSwitcher" class="switcher-btn">
+            <i class="fas fa-moon"></i>
+            <span class="en-text">Dark Mode</span>
+            <span class="hi-text" style="display:none;">डार्क मोड</span>
+        </button>
+        <button id="languageSwitcher" class="switcher-btn">
+            <i class="fas fa-language"></i>
+            <span class="en-text">हिंदी</span>
+            <span class="hi-text" style="display:none;">English</span>
+        </button>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/femino.html"><img src="{{ url_for('static', filename='img/femino-logo.png') }}" alt="Femino Logo"></a>
+            <h1 class="en-text">Femino</h1>
+            <h1 class="hi-text" style="display:none;">फेमिनो</h1>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="tracker-header">
+            <h2 class="en-text">Period Tracker</h2>
+            <h2 class="hi-text" style="display:none;">मासिक ट्रैकर</h2>
+            <p class="en-text">Track your menstrual cycle and understand your body better</p>
+            <p class="hi-text" style="display:none;">अपने मासिक धर्म चक्र को ट्रैक करें और अपने शरीर को बेहतर ढंग से
+                समझें</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="input-form">
+            <h3 class="en-text">Enter Your Period Details</h3>
+            <h3 class="hi-text" style="display:none;">अपने पीरियड का विवरण दर्ज करें</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="startDate" class="en-text">Period Start Date</label>
+                    <label for="startDate" class="hi-text" style="display:none;">पीरियड प्रारंभ तिथि</label>
+                    <input type="date" id="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate" class="en-text">Period End Date</label>
+                    <label for="endDate" class="hi-text" style="display:none;">पीरियड समाप्ति तिथि</label>
+                    <input type="date" id="endDate" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cycleLength" class="en-text">Average Cycle Length (days)</label>
+                <label for="cycleLength" class="hi-text" style="display:none;">औसत चक्र लंबाई (दिन)</label>
+                <input type="number" id="cycleLength" min="21" max="45" value="28" required>
+            </div>
+
+            <button id="submitBtn" class="submit-btn en-text">Calculate</button>
+            <button id="submitBtnHindi" class="submit-btn hi-text" style="display:none;">गणना करें</button>
+        </div>
+
+        <!-- Tracker Dashboard -->
+        <div class="tracker-dashboard" id="trackerDashboard">
+            <!-- Cycle Overview Card -->
+            <div class="dashboard-card cycle-overview">
+                <h3 class="en-text">Your Current Cycle</h3>
+                <h3 class="hi-text" style="display:none;">आपका वर्तमान चक्र</h3>
+
+                <div class="cycle-graph-container">
+                    <canvas id="cycleChart"></canvas>
+                </div>
+
+                <div class="cycle-info">
+                    <div class="info-item">
+                        <span class="en-text">Today is day</span>
+                        <span class="hi-text" style="display:none;">आज है दिन</span>
+                        <strong id="currentCycleDay">-</strong>
+                        <span class="en-text">of your cycle</span>
+                        <span class="hi-text" style="display:none;">आपके चक्र का</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="en-text">Next period in</span>
+                        <span class="hi-text" style="display:none;">अगला पीरियड</span>
+                        <strong id="daysBeforePeriod">-</strong>
+                        <span class="en-text">days</span>
+                        <span class="hi-text" style="display:none;">दिनों में</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Dates Card -->
+            <div class="dashboard-card key-dates">
+                <h3 class="en-text">Important Dates</h3>
+                <h3 class="hi-text" style="display:none;">महत्वपूर्ण तिथियाँ</h3>
+
+                <div class="date-item">
+                    <i class="fas fa-calendar-day"></i>
+                    <div>
+                        <span class="en-text">Next period starts:</span>
+                        <span class="hi-text" style="display:none;">अगला पीरियड शुरू:</span>
+                        <strong id="nextPeriodDate">-</strong>
+                    </div>
+                </div>
+
+                <div class="date-item">
+                    <i class="fas fa-egg"></i>
+                    <div>
+                        <span class="en-text">Fertile window:</span>
+                        <span class="hi-text" style="display:none;">उर्वर अवधि:</span>
+                        <strong id="fertileWindow">-</strong>
+                    </div>
+                </div>
+
+                <div class="date-item">
+                    <i class="fas fa-baby"></i>
+                    <div>
+                        <span class="en-text">Ovulation day:</span>
+                        <span class="hi-text" style="display:none;">ओव्यूलेशन दिन:</span>
+                        <strong id="ovulationDate">-</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Card -->
+            <div class="dashboard-card quick-stats">
+                <h3 class="en-text">Quick Stats</h3>
+                <h3 class="hi-text" style="display:none;">त्वरित आँकड़े</h3>
+
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <div class="stat-value" id="avgCycleLength">-</div>
+                        <div class="stat-label en-text">Avg cycle</div>
+                        <div class="stat-label hi-text" style="display:none;">औसत चक्र</div>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-value" id="avgPeriodLength">-</div>
+                        <div class="stat-label en-text">Avg period</div>
+                        <div class="stat-label hi-text" style="display:none;">औसत पीरियड</div>
+                    </div>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <div class="stat-value" id="pregnancyChance">-</div>
+                        <div class="stat-label en-text">Pregnancy chance</div>
+                        <div class="stat-label hi-text" style="display:none;">गर्भावस्था संभावना</div>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-value" id="recordedCycles">0</div>
+                        <div class="stat-label en-text">Recorded cycles</div>
+                        <div class="stat-label hi-text" style="display:none;">दर्ज चक्र</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Symptoms & Notes Card -->
+            <div class="dashboard-card symptoms">
+                <h3 class="en-text">Today's Notes</h3>
+                <h3 class="hi-text" style="display:none;">आज के नोट्स</h3>
+
+                <div class="symptom-tags" id="symptomTags">
+                    <span class="en-text">No symptoms recorded</span>
+                    <span class="hi-text" style="display:none;">कोई लक्षण दर्ज नहीं किया गया</span>
+                </div>
+
+                <button class="add-note-btn en-text">
+                    <i class="fas fa-plus"></i> Add Note
+                </button>
+                <button class="add-note-btn hi-text" style="display:none;">
+                    <i class="fas fa-plus"></i> नोट जोड़ें
+                </button>
+            </div>
+        </div>
+
+        <!-- Cycle History -->
+        <div class="cycle-history" id="cycleHistory">
+            <h3 class="en-text">Cycle History & Statistics</h3>
+            <h3 class="hi-text" style="display:none;">चक्र इतिहास और आँकड़े</h3>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="value" id="avgCycleLengthHistory">-</div>
+                    <div class="label en-text">Average Cycle Length</div>
+                    <div class="label hi-text" style="display:none;">औसत चक्र लंबाई</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="avgPeriodLengthHistory">-</div>
+                    <div class="label en-text">Average Period Length</div>
+                    <div class="label hi-text" style="display:none;">औसत पीरियड लंबाई</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="avgOvulationDayHistory">-</div>
+                    <div class="label en-text">Average Ovulation Day</div>
+                    <div class="label hi-text" style="display:none;">औसत ओव्यूलेशन दिन</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="recordedCyclesHistory">0</div>
+                    <div class="label en-text">Recorded Cycles</div>
+                    <div class="label hi-text" style="display:none;">दर्ज चक्र</div>
+                </div>
+            </div>
+
+            <div class="en-text">
+                <h4>Recent Cycles</h4>
+                <table class="history-table" id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Cycle Length</th>
+                            <th>Period Length</th>
+                            <th>Ovulation Day</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="hi-text" style="display:none;">
+                <h4>हाल के चक्र</h4>
+                <table class="history-table" id="historyTableHindi">
+                    <thead>
+                        <tr>
+                            <th>प्रारंभ तिथि</th>
+                            <th>समाप्ति तिथि</th>
+                            <th>चक्र लंबाई</th>
+                            <th>पीरियड लंबाई</th>
+                            <th>ओव्यूलेशन दिन</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBodyHindi">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="en-text">Femino - Your personal period tracker and women's health companion</p>
+            <p class="hi-text" style="display:none;">फेमिनो - आपका निजी मासिक ट्रैकर और महिला स्वास्थ्य सहयोगी</p>
+            <ul class="footer-links">
+                <li><a href="#" class="en-text">Privacy Policy</a><a href="#" class="hi-text"
+                        style="display:none;">गोपनीयता नीति</a></li>
+                <li><a href="#" class="en-text">Terms of Service</a><a href="#" class="hi-text"
+                        style="display:none;">सेवा की शर्तें</a></li>
+                <li><a href="#" class="en-text">Contact Us</a><a href="#" class="hi-text" style="display:none;">हमसे
+                        संपर्क करें</a></li>
+            </ul>
+            <div class="footer-bottom">
+                <p class="en-text">&copy; 2023 Femino. All rights reserved.</p>
+                <p class="hi-text" style="display:none;">&copy; 2023 फेमिनो। सर्वाधिकार सुरक्षित।</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script >// Theme Switcher
+        document.getElementById('themeSwitcher').addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            const enText = this.querySelector('.en-text');
+            const hiText = this.querySelector('.hi-text');
+        
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                enText.textContent = 'Light Mode';
+                if (hiText.style.display === 'inline') {
+                    hiText.textContent = 'लाइट मोड';
+                }
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                enText.textContent = 'Dark Mode';
+                if (hiText.style.display === 'inline') {
+                    hiText.textContent = 'डार्क मोड';
+                }
+            }
+        });
+        
+        // Language Switcher
+        document.getElementById('languageSwitcher').addEventListener('click', function () {
+            const englishElements = document.querySelectorAll('.en-text');
+            const hindiElements = document.querySelectorAll('.hi-text');
+        
+            const isEnglish = englishElements[0].style.display === 'none';
+        
+            englishElements.forEach(el => el.style.display = isEnglish ? '' : 'none');
+            hindiElements.forEach(el => el.style.display = isEnglish ? 'none' : '');
+            document.body.classList.toggle('hindi', !isEnglish);
+        
+            this.querySelector('.en-text').textContent = isEnglish ? 'हिंदी' : 'English';
+            this.querySelector('.hi-text').textContent = isEnglish ? 'English' : 'हिंदी';
+        });
+        
+        // Period Tracker Logic
+        let cycles = JSON.parse(localStorage.getItem('feminoCycles')) || [];
+        let cycleChart = null;
+        
+        document.getElementById('submitBtn').addEventListener('click', calculateCycle);
+        document.getElementById('submitBtnHindi').addEventListener('click', calculateCycle);
+        
+        function calculateCycle() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const cycleLength = parseInt(document.getElementById('cycleLength').value, 10);
+        
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                alert('Please enter valid dates');
+                return;
+            }
+            if (endDate <= startDate) {
+                alert('End date must be after start date');
+                return;
+            }
+            if (cycleLength < 21 || cycleLength > 45) {
+                alert('Cycle length should be between 21 and 45 days');
+                return;
+            }
+        
+            const periodLength = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            const ovulationDay = Math.floor(cycleLength / 2);
+        
+            const cycle = {
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+                cycleLength,
+                periodLength,
+                ovulationDay
+            };
+        
+            cycles.push(cycle);
+            localStorage.setItem('feminoCycles', JSON.stringify(cycles));
+            updateTrackerUI(cycle);
+            updateHistoryUI();
+        
+            document.getElementById('trackerDashboard').style.display = 'grid';
+            document.getElementById('cycleHistory').style.display = 'block';
+        }
+        
+        function updateTrackerUI(currentCycle) {
+            const today = new Date();
+            const startDate = new Date(currentCycle.startDate);
+            const nextPeriodDate = new Date(startDate);
+            nextPeriodDate.setDate(nextPeriodDate.getDate() + currentCycle.cycleLength);
+        
+            // Calculate cycle day (1 to cycleLength)
+            const currentCycleDay = Math.max(1, Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1);
+            const daysBeforePeriod = Math.max(0, Math.floor((nextPeriodDate - today) / (1000 * 60 * 60 * 24)));
+        
+            // Calculate ovulation day (typically around day 14 in a 28-day cycle)
+            const ovulationDay = Math.floor(currentCycle.cycleLength / 2);
+            const nextOvulationDate = new Date(startDate);
+            nextOvulationDate.setDate(nextOvulationDate.getDate() + ovulationDay);
+        
+            // Calculate fertile window (5 days before ovulation)
+            const fertileStartDate = new Date(nextOvulationDate);
+            fertileStartDate.setDate(fertileStartDate.getDate() - 5);
+        
+            // Create cycle chart
+            createCycleChart(currentCycleDay, currentCycle.cycleLength);
+        
+            // Update all displayed values
+            document.getElementById('currentCycleDay').textContent = currentCycleDay;
+            document.getElementById('daysBeforePeriod').textContent = daysBeforePeriod;
+            document.getElementById('nextPeriodDate').textContent = nextPeriodDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            document.getElementById('ovulationDate').textContent = nextOvulationDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            document.getElementById('fertileWindow').textContent = `${fertileStartDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${nextOvulationDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+        
+            // Update pregnancy chance
+            const daysBeforeOvulation = Math.floor((nextOvulationDate - today) / (1000 * 60 * 60 * 24));
+            document.getElementById('pregnancyChance').textContent =
+                (daysBeforeOvulation >= -2 && daysBeforeOvulation <= 2) ? 'High' : 'Low';
+        
+            // Update stats
+            updateStatsUI();
+        }
+        
+        function createCycleChart(currentDay, cycleLength) {
+            const ctx = document.getElementById('cycleChart').getContext('2d');
+        
+            // Calculate phase boundaries
+            const periodEnd = Math.min(7, cycleLength);
+            const fertileStart = Math.max(0, Math.floor(cycleLength / 2) - 5);
+            const fertileEnd = Math.floor(cycleLength / 2) + 2; // Includes ovulation day + 2 days after
+            const pmsStart = cycleLength - 7;
+        
+            // Create phase data
+            const labels = Array.from({ length: cycleLength }, (_, i) => `Day ${i + 1}`);
+            const phaseData = Array(cycleLength).fill(0);
+        
+            // Set different values for different phases
+            for (let i = 0; i < cycleLength; i++) {
+                if (i < periodEnd) {
+                    phaseData[i] = 1; // Period phase
+                } else if (i >= fertileStart && i <= fertileEnd) {
+                    phaseData[i] = 2; // Fertile window
+                } else if (i >= pmsStart) {
+                    phaseData[i] = 3; // PMS phase
+                } else {
+                    phaseData[i] = 0; // Other days
+                }
+            }
+        
+            // Destroy previous chart if exists
+            if (cycleChart) {
+                cycleChart.destroy();
+            }
+        
+            cycleChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: phaseData,
+                        backgroundColor: function (context) {
+                            const value = context.dataset.data[context.dataIndex];
+                            switch (value) {
+                                case 1: return '#ff6b8b'; // Period
+                                case 2: return '#ffb8c6'; // Fertile
+                                case 3: return '#6d214f'; // PMS
+                                default: return '#e0e0e0'; // Other days
+                            }
+                        },
+                        borderColor: function (context) {
+                            return context.dataIndex + 1 === currentDay ? '#000000' : 'transparent';
+                        },
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const day = context.dataIndex + 1;
+                                    let phase = "Normal day";
+                                    if (day <= periodEnd) phase = "Period phase";
+                                    else if (day >= fertileStart && day <= fertileEnd) phase = "Fertile window";
+                                    else if (day >= pmsStart) phase = "PMS phase";
+        
+                                    if (day === currentDay) {
+                                        return [`Day ${day} (Today)`, phase];
+                                    }
+                                    return [`Day ${day}`, phase];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            display: false,
+                            min: 0,
+                            max: 3
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateStatsUI() {
+            if (!cycles.length) return;
+        
+            // Calculate averages
+            const avgCycleLength = Math.round(cycles.reduce((sum, cycle) => sum + cycle.cycleLength, 0) / cycles.length);
+            const avgPeriodLength = Math.round(cycles.reduce((sum, cycle) => sum + cycle.periodLength, 0) / cycles.length);
+            const avgOvulationDay = Math.round(cycles.reduce((sum, cycle) => sum + cycle.ovulationDay, 0) / cycles.length);
+        
+            // Update stats
+            document.getElementById('avgCycleLength').textContent = `${avgCycleLength}d`;
+            document.getElementById('avgPeriodLength').textContent = `${avgPeriodLength}d`;
+            document.getElementById('recordedCycles').textContent = cycles.length;
+        
+            // Update history stats
+            document.getElementById('avgCycleLengthHistory').textContent = `${avgCycleLength}d`;
+            document.getElementById('avgPeriodLengthHistory').textContent = `${avgPeriodLength}d`;
+            document.getElementById('avgOvulationDayHistory').textContent = `Day ${avgOvulationDay}`;
+            document.getElementById('recordedCyclesHistory').textContent = cycles.length;
+        }
+        
+        function updateHistoryUI() {
+            if (!cycles.length) return;
+        
+            const tableBody = document.getElementById('historyTableBody');
+            const tableBodyHindi = document.getElementById('historyTableBodyHindi');
+            tableBody.innerHTML = '';
+            tableBodyHindi.innerHTML = '';
+        
+            // Show only the last 5 cycles (most recent first)
+            const recentCycles = [...cycles].reverse().slice(0, 5);
+        
+            recentCycles.forEach(cycle => {
+                const startDate = new Date(cycle.startDate);
+                const endDate = new Date(cycle.endDate);
+        
+                // English table row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${startDate.toLocaleDateString('en-US')}</td>
+                    <td>${endDate.toLocaleDateString('en-US')}</td>
+                    <td>${cycle.cycleLength} days</td>
+                    <td>${cycle.periodLength} days</td>
+                    <td>Day ${cycle.ovulationDay}</td>
+                `;
+                tableBody.appendChild(row);
+        
+                // Hindi table row
+                const rowHindi = document.createElement('tr');
+                rowHindi.innerHTML = `
+                    <td>${startDate.toLocaleDateString('en-IN')}</td>
+                    <td>${endDate.toLocaleDateString('en-IN')}</td>
+                    <td>${cycle.cycleLength} दिन</td>
+                    <td>${cycle.periodLength} दिन</td>
+                    <td>दिन ${cycle.ovulationDay}</td>
+                `;
+                tableBodyHindi.appendChild(rowHindi);
+            });
+        
+            updateStatsUI();
+        }
+        
+        // Initialize the app with any existing data
+        if (cycles.length > 0) {
+            updateTrackerUI(cycles[cycles.length - 1]);
+            updateHistoryUI();
+            document.getElementById('trackerDashboard').style.display = 'grid';
+            document.getElementById('cycleHistory').style.display = 'block';
+        }
+        </script>
+</body>
+<script src="/js/period-tracker.js"></script>

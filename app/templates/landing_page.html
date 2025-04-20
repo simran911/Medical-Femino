@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femino</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --primary-color: #ff6b8b;
+    --secondary-color: #ffb8c6;
+    --accent-color: #ff4757;
+    --dark-color: #6d214f;
+    --light-color: #fff5f7;
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #fff5f7;
+    --card-bg: #fff;
+    --navbar-bg: #fff;
+    --footer-bg: #6d214f;
+    --footer-text: #fff;
+    --testimonial-bg: linear-gradient(135deg, #ffecef 0%, #fff5f7 100%);
+    --cta-bg: linear-gradient(135deg, #ff6b8b 0%, #ff4757 100%);
+}
+
+.dark-mode {
+    --primary-color: #ff6b8b;
+    --secondary-color: #ff8fa3;
+    --accent-color: #ff4757;
+    --dark-color: #e2b3c6;
+    --light-color: #1a0d14;
+    --text-color: #f0e6eb;
+    --text-light: #c9a8b9;
+    --bg-color: #1a0d14;
+    --card-bg: #2a1721;
+    --navbar-bg: #2a1721;
+    --footer-bg: #1a0d14;
+    --footer-text: #f0e6eb;
+    --testimonial-bg: linear-gradient(135deg, #2a1721 0%, #1a0d14 100%);
+    --cta-bg: linear-gradient(135deg, #ff6b8b 0%, #ff4757 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+/* Language and Theme Switcher */
+.switcher-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.switcher-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.switcher-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 1.8rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons .btn {
+    margin-left: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-login:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-signup {
+    background: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    color: white;
+}
+.btn-signup1{
+    height: 40px !important;
+
+}
+
+.btn-signup:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Hero Section */
+.hero {
+    padding: 8rem 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--light-color) 0%, var(--bg-color) 100%);
+    min-height: 90vh;
+    transition: all 0.3s ease;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    font-family: 'Playfair Display', serif;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.hero-btn {
+    padding: 0.8rem 1.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 107, 139, 0.1);
+    transform: translateY(-2px);
+}
+
+.hero-image {
+    width: 45%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Features Section */
+.features {
+    padding: 5rem 2rem;
+    background: var(--card-bg);
+    transition: all 0.3s ease;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h3 {
+    font-size: 2.2rem;
+    color: var(--dark-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.section-title p {
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--light-color);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 107, 139, 0.1);
+}
+
+.feature-icon {
+    background: var(--secondary-color);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.feature-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+.feature-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+/* Testimonials */
+.testimonials {
+    padding: 5rem 2rem;
+    background: var(--testimonial-bg);
+    transition: all 0.3s ease;
+}
+
+.testimonial-slider {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.testimonial {
+    padding: 2rem;
+}
+
+.testimonial-content {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.testimonial-content::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: var(--card-bg) transparent transparent;
+    transition: all 0.3s ease;
+}
+
+.testimonial-text {
+    font-style: italic;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.author-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+}
+
+.author-info h5 {
+    font-size: 1rem;
+    color: var(--dark-color);
+    margin-bottom: 0.2rem;
+}
+
+.author-info p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* CTA Section */
+.cta {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: var(--card-bg);
+    transition: all 0.3s ease;
+}
+
+.cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--cta-bg);
+    padding: 3rem;
+    border-radius: 15px;
+    color: white;
+}
+
+.cta h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.cta p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Footer */
+footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 3rem 2rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--footer-text);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--secondary-color);
+    opacity: 1;
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    color: var(--footer-text);
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: var(--footer-text);
+    opacity: 0.7;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 10rem;
+    }
+
+    .hero-content {
+        margin-bottom: 3rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-image {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        margin: 1rem 0;
+    }
+
+    .auth-buttons {
+        margin-top: 1rem;
+    }
+
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links li {
+        margin: 0.5rem;
+    }
+
+    .hero {
+        padding: 8rem 1rem 4rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .hero-btn {
+        width: 100%;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .switcher-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .switcher-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Hindi font */
+.hindi {
+    font-family: 'Noto Sans Devanagari', 'Montserrat', sans-serif;
+}
+
+.hindi .hero h2,
+.hindi .section-title h3,
+.hindi .logo h1,
+.hindi .cta h3,
+.hindi .footer-column h4 {
+    font-family: 'Noto Sans Devanagari', 'Playfair Display', serif;
+}
+
+
+/* Welcome Popup Styles */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.popup-content {
+    background: linear-gradient(135deg, #fff5f7 0%, #ffecef 100%);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(255, 107, 139, 0.3);
+    position: relative;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.popup-icon {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.popup-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popup-close-btn:hover {
+    color: var(--accent-color);
+    transform: rotate(90deg);
+}
+
+.popup-body h3 {
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.popup-body p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.popup-tip {
+    background-color: rgba(255, 107, 139, 0.1);
+    padding: 0.8rem;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.popup-tip i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.popup-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.popup-action-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.popup-action-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
+}
+
+/* Dark mode adjustments */
+.dark-mode .popup-content {
+    background: linear-gradient(135deg, #2a1721 0%, #1a0d14 100%);
+    box-shadow: 0 10px 30px rgba(255, 107, 139, 0.2);
+}
+
+.dark-mode .popup-body h3 {
+    color: var(--secondary-color);
+}
+
+.dark-mode .popup-body p {
+    color: var(--text-light);
+}
+
+.dark-mode .popup-tip {
+    background-color: rgba(255, 107, 139, 0.2);
+    color: var(--secondary-color);
+}
+    </style>
+</head>
+<body class="light-mode">
+    <!-- Language and Theme Switcher -->
+    <div class="switcher-container">
+        <button id="themeSwitcher" class="switcher-btn">
+            <i class="fas fa-moon"></i>
+            <span class="en-text">Dark Mode</span>
+            <span class="hi-text" style="display:none;">डार्क मोड</span>
+        </button>
+        <button id="languageSwitcher" class="switcher-btn">
+            <i class="fas fa-language"></i>
+            <span class="en-text">हिंदी</span>
+            <span class="hi-text" style="display:none;">English</span>
+        </button>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/femino.html"><img src="{{ url_for('static', filename='img/femino-logo.png') }}" alt="Femino Logo">
+            <h1 class="en-text">Femino</h1>
+            <h1 class="hi-text" style="display:none;">फैमिनो</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/chatbot" class="en-text">Chatbot</a><a href="#" class="hi-text" style="display:none;">चैटबॉट</a></li>
+            <li><a href="/period" class="en-text">Cycle Tracker</a><a href="/period-tracker.html" class="hi-text" style="display:none;">मासिक ट्रैकर</a></li>
+            <li><a href="/femine-connect" class="en-text">Femino Connect</a><a href="/contact-dr.html" class="hi-text" style="display:none;">डॉक्टर से संपर्क करें</a></li>
+            <li><a href="/contact-us" class="en-text">Contact Us</a><a href="/contact_us.html" class="hi-text" style="display:none;">मेडिकल चैटबॉट</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="btn btn-login en-text">Log In</button>
+            <button class="btn btn-login hi-text" style="display:none;">लॉग इन</button>
+            <button class="btn btn-signup en-text">Sign Up</button>
+            <button class="btn btn-signup hi-text" style="display:none;">साइन अप</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="en-text">Your Personal Women's Health Companion</h2>
+            <h2 class="hi-text" style="display:none;">आपकी निजी महिला स्वास्थ्य सहायिका</h2><br><br>
+            <p class="en-text">Femino is your intelligent women’s health partner — track your periods, get instant gynecological advice, connect with doctors, and educate the next generation through interactive AI tools.</p>
+            <p class="hi-text" style="display:none;">फेमिनो आपकी बुद्धिमान महिला स्वास्थ्य साझेदार है - अपने मासिक धर्म को ट्रैक करें, तुरंत स्त्री रोग संबंधी सलाह प्राप्त करें, डॉक्टरों से जुड़ें और इंटरैक्टिव एआई टूल के माध्यम से अगली पीढ़ी को शिक्षित करें।</p>
+            <!-- <div class="hero-buttons"><br><br>
+                <button class="hero-btn btn-primary en-text">Get Started</button>
+                <button class="hero-btn btn-primary hi-text" style="display:none;">शुरू करें</button>
+                <button class="hero-btn btn-secondary en-text">Learn More</button>
+                <button class="hero-btn btn-secondary hi-text" style="display:none;">और जानें</button>
+            </div> -->
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='img/femino-img(1).png') }}" alt="Happy woman using Gyno Assistant app" style="width:100%; border-radius:15px;">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h3 class="en-text">Features Designed for You</h3>
+            <h3 class="hi-text" style="display:none;">आपके लिए डिज़ाइन की गई सुविधाएँ</h3><br>
+            <p class="en-text">Comprehensive women's health tools that empower and educate</p>
+            <p class="hi-text" style="display:none;">सशक्त बनाने और शिक्षित करने वाले व्यापक महिला स्वास्थ्य उपकरण</p>
+        </div>
+        <div class="features-grid">
+            <a href="/ai" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h4 class="en-text">FemiAI</h4>
+                <h4 class="hi-text" style="display:none;">फेमीएआई</h4><br>
+                <p class="en-text" style="font-weight: bold;">Your smart gyne assistant — get instant answers, scan analysis, and personalized care at your fingertips.</p><br>
+                <p class="en-text" style=" margin-top: 0.5rem; font-size: 0.9rem;">Empowering women with AI-driven health insights, 24/7.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ;">आपकी स्मार्ट स्त्री रोग सहायक — त्वरित उत्तर, स्कैन विश्लेषण और व्यक्तिगत देखभाल आपकी उंगलियों पर।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">एआई-संचालित स्वास्थ्य अंतर्दृष्टि के साथ महिलाओं को सशक्त बनाना, 24/7।</p>
+            </div>
+            </a>
+            <a href="/period" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h4 class="en-text">Cycle Tracker</h4>
+                <h4 class="hi-text" style="display:none;">चक्र ट्रैकर</h4><br>
+                <p class="en-text" style="font-weight: bold;">Track your cycle, moods, and symptoms with a smart dashboard built for your body.</p><br>
+                <p class="en-text" style="margin-top: 0.5rem; font-size: 0.9rem;">Because understanding your period should be simple, accurate, and empowering.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ;">अपने शरीर के लिए बनाए गए स्मार्ट डैशबोर्ड के साथ अपने चक्र, मनोदशा और लक्षणों को ट्रैक करें।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">क्योंकि आपके मासिक धर्म को समझना सरल, सटीक और सशक्त बनाने वाला होना चाहिए।</p>
+            </div>
+        </a>
+            <a href="/game" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h4 class="en-text">FemiGame</h4>
+                <h4 class="hi-text" style="display:none;">फेमीगेम</h4><br>
+                <p class="en-text" style="font-weight: bold;">Learn about periods through play — fun, safe, and designed for young minds.</p><br>
+                <p class="en-text" style="margin-top: 0.5rem; font-size: 0.9rem;">An AI-powered game that turns curiosity into confidence.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ;">खेल के माध्यम से मासिक धर्म के बारे में जानें — मजेदार, सुरक्षित और युवा मन के लिए डिज़ाइन किया गया।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">एक एआई-संचालित खेल जो जिज्ञासा को आत्मविश्वास में बदल देता है।</p>
+            </div>
+        </a>
+            <a href="/contact-dr" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h4 class="en-text">Vital Aware</h4>
+                <h4 class="hi-text" style="display:none;">वाइटल अवेयर</h4><br>
+                <p class="en-text" style="font-weight: bold;">Educate. Detect. Empower. Learn about reproductive cancers before it's too late.</p><br>
+                <p class="en-text" style="margin-top: 0.5rem; font-size: 0.9rem;">Vital knowledge for vital health — awareness is your first line of defense.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ;">शिक्षित करें। पहचानें। सशक्त बनाएं। बहुत देर होने से पहले प्रजनन कैंसर के बारे में जानें।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">महत्वपूर्ण स्वास्थ्य के लिए महत्वपूर्ण ज्ञान — जागरूकता आपकी पहली रक्षा पंक्ति है।</p>
+            </div>
+            </a>
+            <a href="/femine-connect" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h4 class="en-text">Dr. Femino </h4>
+                <h4 class="hi-text" style="display:none;">डॉ.फेमिनो</h4><br>
+                <p class="en-text" style="font-weight: bold;">Chat, book, or consult with a doctor — all in one tap.</p><br>
+                <p class="en-text" style="margin-top: 0.5rem; font-size: 0.9rem;">Expert gynecological support when and where you need it.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ;">चैट करें, बुक करें या डॉक्टर से परामर्श करें — सब एक टैप में।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">विशेषज्ञ स्त्री रोग संबंधी सहायता जब और जहां आपको इसकी आवश्यकता हो।</p>
+            </div>
+            </a>
+            <a href="/donate" class="feature-link">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h4 class="en-text">Donate Here</h4>
+                <h4 class="hi-text" style="display:none;">यहां दान करें</h4><br>
+                <p class="en-text" style="font-weight: bold;" >Support women's health and outreach by donating today.</p><br>
+                <p class="en-text" style="margin-top: 0.5rem; font-size: 0.9rem;">Your contribution can change lives — help us reach more, teach more, and heal more.</p>
+                <p class="hi-text" style="display:none; font-weight: bold; ">आज ही दान करके महिलाओं के स्वास्थ्य और आउटरीच का समर्थन करें।</p><br>
+                <p class="hi-text" style="display:none; margin-top: 0.5rem; font-size: 0.9rem;">आपका योगदान जीवन बदल सकता है — हमें औरों तक पहुंचने, अधिक सिखाने और अधिक ठीक करने में मदद करें।</p>
+            </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-title">
+            <h3 class="en-text">What Our Users Say</h3><br>
+            <h3 class="hi-text" style="display:none;">हमारे उपयोगकर्ता क्या कहते हैं</h3><br>
+            <p class="en-text">Hear from women who have transformed their health journey with Gyno Assistant</p>
+            <p class="hi-text" style="display:none;">उन महिलाओं से सुनें जिन्होंने स्त्री रोग सहायक के साथ अपनी स्वास्थ्य यात्रा को बदल दिया है</p>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p class="testimonial-text en-text">"Gyno Assistant has completely changed how I understand my body. The period tracker is incredibly accurate, and the diet suggestions have helped with my PMS symptoms."</p><br>
+                    <p class="testimonial-text hi-text" style="display:none;">"स्त्री रोग सहायक ने पूरी तरह से बदल दिया है कि मैं अपने शरीर को कैसे समझती हूं। मासिक ट्रैकर अविश्वसनीय रूप से सटीक है, और आहार सुझावों ने मेरे पीएमएस लक्षणों में मदद की है।"</p><br>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='img/client1.png') }}" alt="Sarah J." class="author-img">
+                        <div class="author-info">
+                            <h5>Sarah J.</h5>
+                            <p class="en-text">User since 2022</p><br>
+                            <p class="hi-text" style="display:none;">2022 से उपयोगकर्ता</p><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-content">
+            <h3 class="en-text">Ready to Take Control of Your Health?</h3>
+            <h3 class="hi-text" style="display:none;">अपने स्वास्थ्य पर नियंत्रण रखने के लिए तैयार हैं?</h3><br>
+            <p class="en-text">Join thousands of women who are already benefiting from personalized health tracking and expert advice.</p><br>
+            <p class="hi-text" style="display:none;">हजारों महिलाओं में शामिल हों जो पहले से ही व्यक्तिगत स्वास्थ्य ट्रैकिंग और विशेषज्ञ सलाह से लाभान्वित हो रही हैं।</p><br>
+            <button class="hero-btn btn-primary en-text">Start Your Free Trial</button><br>
+            <button class="hero-btn btn-primary hi-text" style="display:none;">मुफ्त ट्रायल शुरू करें</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4 class="en-text">Femino</h4><br>
+                <h4 class="hi-text" style="display:none;">फैमिनो</h4><br>
+                <p class="en-text">Your trusted companion for women's health and wellness.</p>
+                <p class="hi-text" style="display:none;">महिलाओं के स्वास्थ्य और कल्याण के लिए आपका विश्वसनीय साथी।</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Quick Links</h4><br>
+                <h4 class="hi-text" style="display:none;">त्वरित लिंक</h4><br>
+                <ul class="footer-links">
+                    <li><a href="/chatbot" class="en-text">Chatbot</a><a href="/chatbot" class="hi-text" style="display:none;">सुविधाएँ</a></li>
+                    <li><a href="/period" class="en-text">Period Tracker</a><a href="/period" class="hi-text" style="display:none;">मासिक ट्रैकर</a></li>
+                    <li><a href="/chatbot" class="en-text">Medical Chatbot</a><a href="/chatbot" class="hi-text" style="display:none;">मेडिकल चैटबॉट</a></li>
+                    <li><a href="/femine-connect" class="en-text">Contact Doctor</a><a href="fimine-connect" class="hi-text" style="display:none;">डॉक्टर से संपर्क करें</a></li>
+                    <li><a href="/contact-us" class="en-text">Contact Us</a><a href="/contact-us" class="hi-text" style="display:none;">आहार योजनाकार</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Company</h4><br>
+                <h4 class="hi-text" style="display:none;">कंपनी</h4><br>
+                <ul class="footer-links">
+                    <li><a href="#" class="en-text">About Us</a><a href="#" class="hi-text" style="display:none;">हमारे बारे में</a></li>
+                    <li><a href="#" class="en-text">Careers</a><a href="#" class="hi-text" style="display:none;">करियर</a></li>
+                    <li><a href="#" class="en-text">Privacy Policy</a><a href="#" class="hi-text" style="display:none;">गोपनीयता नीति</a></li>
+                    <li><a href="#" class="en-text">Terms of Service</a><a href="#" class="hi-text" style="display:none;">सेवा की शर्तें</a></li>
+                    <li><a href="contact_us.html" class="en-text">Contact Us</a><a href="/contact_us.html" class="hi-text" style="display:none;">हमसे संपर्क करें</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Newsletter</h4><br>
+                <h4 class="hi-text" style="display:none;">समाचार पत्र</h4><br>
+                <p class="en-text">Subscribe to get health tips and updates.</p><br>
+                <p class="hi-text" style="display:none;">स्वास्थ्य युक्तियाँ और अपडेट प्राप्त करने के लिए सदस्यता लें।</p><br>
+                <form>
+                    <input type="email" placeholder="Your Email" class="en-text" style="width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:5px; border:none;">
+                    <input type="email" placeholder="आपका ईमेल" class="hi-text" style="display:none; width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:2px; border:none;">
+                    <button type="submit" class="btn-signup btn-signup1 en-text" style="width:100%;">Subscribe</button>
+                    <button type="submit" class="btn-signup btn-signup1 hi-text" style="display:none; width:100%;">सदस्यता लें</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom"></div>
+    </footer>
+</body>
+</html>
+<script >
+    // Default language state: 'en' for English, 'hi' for Hindi
+let currentLanguage = 'en';
+
+// Function to toggle language
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+
+    // Get all elements of both languages
+    const enTexts = document.querySelectorAll('.en-text');
+    const hiTexts = document.querySelectorAll('.hi-text');
+
+    // Show or hide based on current language
+    enTexts.forEach(el => el.style.display = currentLanguage === 'en' ? 'inline' : 'none');
+    hiTexts.forEach(el => el.style.display = currentLanguage === 'hi' ? 'inline' : 'none');
+}
+
+// Theme Switcher (optional dark mode toggle)
+function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('dark-mode');
+
+    // Optionally change icon or text
+    const themeBtn = document.getElementById('themeSwitcher');
+    const moonIcon = themeBtn.querySelector('i');
+
+    if (document.body.classList.contains('dark-mode')) {
+        moonIcon.classList.remove('fa-moon');
+        moonIcon.classList.add('fa-sun');
+    } else {
+        moonIcon.classList.remove('fa-sun');
+        moonIcon.classList.add('fa-moon');
+    }
+}
+
+// Attach event listeners after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Initially show only English
+    toggleLanguage(); // this will switch to Hindi
+    toggleLanguage(); // back to English (initial)
+
+    document.getElementById('languageSwitcher').addEventListener('click', toggleLanguage);
+    document.getElementById('themeSwitcher').addEventListener('click', toggleTheme);
+});
+// Welcome popup functionality
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if the user has seen the popup before
+    if (!localStorage.getItem('feminoWelcomeSeen')) {
+        // Show popup after 1 second
+        setTimeout(() => {
+            document.getElementById('welcomePopup').style.display = 'flex';
+            
+            // Close button functionality
+            document.getElementById('closePopup').addEventListener('click', () => {
+                document.getElementById('welcomePopup').style.display = 'none';
+                localStorage.setItem('feminoWelcomeSeen', 'true');
+            });
+            
+            // Action button functionality
+            document.querySelector('.popup-action-btn').addEventListener('click', () => {
+                document.getElementById('welcomePopup').style.display = 'none';
+                localStorage.setItem('feminoWelcomeSeen', 'true');
+            });
+            
+            // Make sure language switching works in the popup too
+            const languageBtn = document.getElementById('languageSwitcher');
+            if (languageBtn) {
+                languageBtn.addEventListener('click', () => {
+                    // The existing toggleLanguage function will handle the popup content too
+                });
+            }
+        }, 1000);
+    }
+});
+</script>

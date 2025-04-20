@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femino - Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e63946; /* Red accent color */
+            --secondary-color: #457b9d;
+            --dark-color: #1d3557;
+            --light-color: #f1faee;
+            --background-light: #ffffff;
+            --background-dark: #121212;
+            --text-light: #333333;
+            --text-dark: #f8f9fa;
+            --card-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+        }
+
+        .hi-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        /* Switcher Container */
+        .switcher-container {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 2rem;
+            gap: 1rem;
+        }
+
+        .switcher-btn {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .switcher-btn {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-dark);
+        }
+
+        .switcher-btn:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .dark-mode .switcher-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .navbar {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links li a.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-signup {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-login:hover {
+            background: rgba(230, 57, 70, 0.1);
+        }
+
+        .btn-signup:hover {
+            background: #c1121f;
+        }
+
+        /* Contact Page Styles */
+        .contact-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .dark-mode .contact-info {
+            background-color: #1e1e1e;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-info h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-method {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-method i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        .contact-method h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-method p {
+            margin: 0;
+            color: inherit;
+        }
+
+        .dark-mode .contact-method p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .contact-form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .dark-mode .contact-form {
+            background-color: #1e1e1e;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-form h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: var(--background-light);
+            color: var(--text-light);
+        }
+
+        .dark-mode .form-control {
+            background-color: #2a2a2a;
+            border-color: #444;
+            color: var(--text-dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #c1121f;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .dark-mode footer {
+            background-color: #1a1a1a;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h4 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.1);
+            color: inherit;
+            transition: all 0.3s;
+        }
+
+        .dark-mode .social-links a {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 1.5rem 0 0;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <!-- Language and Theme Switcher -->
+    <div class="switcher-container">
+        <button id="themeSwitcher" class="switcher-btn">
+            <i class="fas fa-moon"></i>
+            <span class="en-text">Dark Mode</span>
+            <span class="hi-text" style="display:none;">डार्क मोड</span>
+        </button>
+        <button id="languageSwitcher" class="switcher-btn">
+            <i class="fas fa-language"></i>
+            <span class="en-text">हिंदी</span>
+            <span class="hi-text" style="display:none;">English</span>
+        </button>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/femino.html"><img src="{{ url_for('static', filename='img/femino-logo.png') }}" alt="Gyno Assistant Logo"></a>
+            <h1 class="en-text">Femino</h1>
+            <h1 class="hi-text" style="display:none;">फैमिनो</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="en-text">Chatbot</a><a href="#" class="hi-text" style="display:none;">चैटबॉट</a></li>
+            <li><a href="/period-tracker.html" class="en-text">Cycle Tracker</a><a href="/period-tracker.html" class="hi-text" style="display:none;">मासिक ट्रैकर</a></li>
+            <li><a href="/femine-connect" class="en-text">Femino Connect</a><a href="/contact-dr.html" class="hi-text" style="display:none;">डॉक्टर से संपर्क करें</a></li>
+            <li><a href="/contact-us" class="en-text">Contact Us</a><a href="/contact_us" class="hi-text" style="display:none;">मेडिकल चैटबॉट</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="btn btn-login en-text">Log In</button>
+            <button class="btn btn-login hi-text" style="display:none;">लॉग इन</button>
+            <button class="btn btn-signup en-text">Sign Up</button>
+            <button class="btn btn-signup hi-text" style="display:none;">साइन अप</button>
+        </div>
+    </nav>
+
+    <!-- Contact Page Content -->
+    <div class="contact-container">
+        <div class="contact-header">
+            <h2 class="en-text">Contact Us</h2>
+            <h2 class="hi-text" style="display:none;">हमसे संपर्क करें</h2>
+            <p class="en-text">We're here to help and answer any questions you might have. We look forward to hearing from you.</p>
+            <p class="hi-text" style="display:none;">हम आपकी मदद करने और आपके किसी भी प्रश्न का उत्तर देने के लिए यहां हैं। हम आपसे सुनने के लिए उत्सुक हैं।</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3 class="en-text">Get in Touch</h3>
+                <h3 class="hi-text" style="display:none;">संपर्क करें</h3>
+                
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4 class="en-text">Email</h4>
+                        <h4 class="hi-text" style="display:none;">ईमेल</h4>
+                        <p>support@femino.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4 class="en-text">Phone</h4>
+                        <h4 class="hi-text" style="display:none;">फोन</h4>
+                        <p>+1 (800) 123-4567</p>
+                        <p class="en-text">Monday-Friday, 9am-5pm EST</p>
+                        <p class="hi-text" style="display:none;">सोमवार-शुक्रवार, सुबह 9 बजे से शाम 5 बजे तक (EST)</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4 class="en-text">Address</h4>
+                        <h4 class="hi-text" style="display:none;">पता</h4>
+                        <p>123 Health Lane<br>San Francisco, CA 94107<br>United States</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-share-alt"></i>
+                    <div>
+                        <h4 class="en-text">Follow Us</h4>
+                        <h4 class="hi-text" style="display:none;">हमें फॉलो करें</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3 class="en-text">Send Us a Message</h3>
+                <h3 class="hi-text" style="display:none;">हमें संदेश भेजें</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name" class="en-text">Your Name</label>
+                        <label for="name" class="hi-text" style="display:none;">आपका नाम</label>
+                        <input type="text" id="name" class="form-control en-text" placeholder="Enter your name" required>
+                        <input type="text" id="name-hi" class="form-control hi-text" style="display:none;" placeholder="अपना नाम दर्ज करें" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="en-text">Your Email</label>
+                        <label for="email" class="hi-text" style="display:none;">आपका ईमेल</label>
+                        <input type="email" id="email" class="form-control en-text" placeholder="Enter your email" required>
+                        <input type="email" id="email-hi" class="form-control hi-text" style="display:none;" placeholder="अपना ईमेल दर्ज करें" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="en-text">Subject</label>
+                        <label for="subject" class="hi-text" style="display:none;">विषय</label>
+                        <input type="text" id="subject" class="form-control en-text" placeholder="Enter subject">
+                        <input type="text" id="subject-hi" class="form-control hi-text" style="display:none;" placeholder="विषय दर्ज करें">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="en-text">Your Message</label>
+                        <label for="message" class="hi-text" style="display:none;">आपका संदेश</label>
+                        <textarea id="message" class="form-control en-text" placeholder="Enter your message" required></textarea>
+                        <textarea id="message-hi" class="form-control hi-text" style="display:none;" placeholder="अपना संदेश दर्ज करें" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn en-text">Send Message</button>
+                    <button type="submit" class="submit-btn hi-text" style="display:none;">संदेश भेजें</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4 class="en-text">Femino</h4>
+                <h4 class="hi-text" style="display:none;">फैमिनो</h4>
+                <p class="en-text">Your trusted companion for women's health and wellness.</p>
+                <p class="hi-text" style="display:none;">महिलाओं के स्वास्थ्य और कल्याण के लिए आपका विश्वसनीय साथी।</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Quick Links</h4>
+                <h4 class="hi-text" style="display:none;">त्वरित लिंक</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="en-text">Chatbot</a><a href="#" class="hi-text" style="display:none;">सुविधाएँ</a></li>
+                    <li><a href="/period-tracker.html" class="en-text">Period Tracker</a><a href="/period-tracker.html" class="hi-text" style="display:none;">मासिक ट्रैकर</a></li>
+                    <li><a href="#chatbot" class="en-text">Medical Chatbot</a><a href="#chatbot" class="hi-text" style="display:none;">मेडिकल चैटबॉट</a></li>
+                    <li><a href="contact-dr.html" class="en-text">Contact Doctor</a><a href="contact-dr.html" class="hi-text" style="display:none;">डॉक्टर से संपर्क करें</a></li>
+                    <li><a href="/contact_us.html" class="en-text">Contact Us</a><a href="/contact_us.html" class="hi-text" style="display:none;">आहार योजनाकार</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Company</h4>
+                <h4 class="hi-text" style="display:none;">कंपनी</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="en-text">About Us</a><a href="#" class="hi-text" style="display:none;">हमारे बारे में</a></li>
+                    <li><a href="#" class="en-text">Careers</a><a href="#" class="hi-text" style="display:none;">करियर</a></li>
+                    <li><a href="#" class="en-text">Privacy Policy</a><a href="#" class="hi-text" style="display:none;">गोपनीयता नीति</a></li>
+                    <li><a href="#" class="en-text">Terms of Service</a><a href="#" class="hi-text" style="display:none;">सेवा की शर्तें</a></li>
+                    <li><a href="contact_us.html" class="en-text">Contact Us</a><a href="/contact_us.html" class="hi-text" style="display:none;">हमसे संपर्क करें</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="en-text">Newsletter</h4>
+                <h4 class="hi-text" style="display:none;">समाचार पत्र</h4>
+                <p class="en-text">Subscribe to get health tips and updates.</p>
+                <p class="hi-text" style="display:none;">स्वास्थ्य युक्तियाँ और अपडेट प्राप्त करने के लिए सदस्यता लें।</p>
+                <form>
+                    <input type="email" placeholder="Your Email" class="en-text" style="width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:5px; border:none;">
+                    <input type="email" placeholder="आपका ईमेल" class="hi-text" style="display:none; width:100%; padding:0.5rem; margin-bottom:0.5rem; border-radius:2px; border:none;">
+                    <button type="submit" class="btn-signup btn-signup1 en-text" style="width:100%;height: 30px;">Subscribe</button>
+                    <button type="submit" class="btn-signup btn-signup1 hi-text" style="display:none; width:100%;height: 30px;">सदस्यता लें</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom"></div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        
+        themeSwitcher.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeSwitcher.querySelector('.en-text').textContent = 'Light Mode';
+                themeSwitcher.querySelector('.hi-text').textContent = 'लाइट मोड';
+            } else {
+                themeSwitcher.querySelector('.en-text').textContent = 'Dark Mode';
+                themeSwitcher.querySelector('.hi-text').textContent = 'डार्क मोड';
+            }
+        });
+        
+        // Language toggle functionality
+        const languageSwitcher = document.getElementById('languageSwitcher');
+        
+        languageSwitcher.addEventListener('click', () => {
+            const enElements = document.querySelectorAll('.en-text');
+            const hiElements = document.querySelectorAll('.hi-text');
+            
+            if (hiElements[0].style.display === 'none') {
+                // Switch to Hindi
+                enElements.forEach(el => el.style.display = 'none');
+                hiElements.forEach(el => el.style.display = 'block');
+                languageSwitcher.querySelector('.en-text').textContent = 'English';
+                languageSwitcher.querySelector('.hi-text').textContent = 'हिंदी';
+            } else {
+                // Switch to English
+                enElements.forEach(el => el.style.display = 'block');
+                hiElements.forEach(el => el.style.display = 'none');
+                languageSwitcher.querySelector('.en-text').textContent = 'हिंदी';
+                languageSwitcher.querySelector('.hi-text').textContent = 'English';
+            }
+        });
+    </script>
+</body>
+</html>

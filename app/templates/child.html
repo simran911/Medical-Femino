@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooming Adventures - Period Education Game</title>
+    <style>
+        /* Main Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Marker Felt', 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        body {
+            background-color: #fff5f7;
+            color: #5e2b5a;
+            overflow-x: hidden;
+        }
+
+        #game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff6b9d;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #ffd6e7;
+        }
+
+        .subtitle {
+            color: #9d4b8b;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .header-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .flower {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+        }
+
+        /* Game Screen Styles */
+        #game-screen {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.2);
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 150px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><circle cx="50" cy="30" r="20" fill="%23ffb6d9"/><path d="M50,50 L50,120 Q50,130 40,130 L30,130 Q20,130 20,120 L20,80 Q20,60 40,60 L60,60 Q80,60 80,80 L80,120 Q80,130 70,130 L60,130 Q50,130 50,120" fill="%23ff9bc9"/><circle cx="40" cy="25" r="3" fill="%235e2b5a"/><circle cx="60" cy="25" r="3" fill="%235e2b5a"/><path d="M40,40 Q50,45 60,40" fill="none" stroke="%235e2b5a" stroke-width="2"/></svg>');
+            background-repeat: no-repeat;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .character:hover {
+            transform: scale(1.05);
+        }
+
+        .character-talk {
+            position: absolute;
+            bottom: 220px;
+            right: 180px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 200px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+        }
+
+        .character-talk:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent;
+        }
+
+        .character-talk.show {
+            opacity: 1;
+        }
+
+        /* Level Styles */
+        .level {
+            display: none;
+        }
+
+        .level.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .level-title {
+            color: #ff6b9d;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .level-content {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Quiz Styles */
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #9d4b8b;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background-color: #ffecf2;
+            border: 2px solid #ffb6d9;
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: #ffd6e7;
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .feedback {
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        /* Hygiene Kit Game */
+        .hygiene-kit-game {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .hygiene-item {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hygiene-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .hygiene-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+
+        .hygiene-item span {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .hygiene-kit-bag {
+            width: 100%;
+            height: 150px;
+            background-color: #ffecf2;
+            border: 3px dashed #ff9bc9;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-button {
+            background-color: #ff6b9d;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .nav-button:hover {
+            background-color: #ff4785;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .nav-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #ffd6e7;
+            border-radius: 5px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #ff6b9d;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Celebration Effects */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        /* Period Tracker Mini-game */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .calendar-day {
+            background-color: #ffecf2;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .calendar-day.period {
+            background-color: #ffd6e7;
+            position: relative;
+        }
+
+        .calendar-day.period:after {
+            content: '🌸';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+
+        .calendar-day-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            #game-screen {
+                padding: 20px 15px;
+            }
+            
+            .character {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .character-talk {
+                right: 190px;
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>Blooming Adventures</h1>
+            <p class="subtitle">A magical journey about growing up</p>
+            <div class="header-decoration" id="header-decoration"></div>
+        </header>
+
+        <div id="game-screen">
+            <div class="character" id="character"></div>
+            <div class="character-talk" id="character-talk">Hi there! Ready to learn about periods?</div>
+
+            <!-- Welcome Screen -->
+            <div class="level active" id="welcome-screen">
+                <h2 class="level-title">Welcome to Blooming Adventures!</h2>
+                <div class="level-content">
+                    <p>Hello, amazing girl! 🌸</p>
+                    <p>This is a special game to help you learn all about periods in a fun and magical way.</p>
+                    <p>You'll meet friendly characters, play games, and discover how amazing your body is!</p>
+                    <p>Are you ready to begin your adventure?</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="startGame()">Start Adventure!</button>
+                </div>
+            </div>
+
+            <!-- Level 1: What are periods? -->
+            <div class="level" id="level1">
+                <h2 class="level-title">What Are Periods?</h2>
+                <div class="level-content">
+                    <p>🌸 <strong>Periods</strong> are a natural part of growing up for girls. They're a sign that your body is healthy and working as it should!</p>
+                    <p>🌙 About once a month, your body prepares for the possibility of having a baby. If there's no baby, the special lining in your uterus comes out as blood through your vagina.</p>
+                    <p>💖 This is completely normal and nothing to be embarrassed about! Almost all women and girls have periods.</p>
+                    
+                    <div class="quiz-question">Let's check what you've learned!</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Periods are a normal part of growing up</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">Only some girls get periods</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Periods mean your body is working healthily</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()" >Previous</button>
+                    <button class="nav-button" onclick="nextLevel()">Next</button>
+                </div>
+            </div>
+
+            <!-- Level 2: Period Products -->
+            <div class="level" id="level2">
+                <h2 class="level-title">Period Products</h2>
+                <div class="level-content">
+                    <p>🛍️ There are different products you can use during your period. Let's learn about them!</p>
+                    
+                    <div class="hygiene-kit-game">
+                        <div class="hygiene-item" draggable="true" data-product="pads">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='30' width='80' height='40' rx='5' fill='%23ffffff' stroke='%23ff6b9d' stroke-width='3'/><rect x='20' y='40' width='60' height='20' fill='%23ffb6d9'/></svg>" alt="Pads">
+                            <span>Pads</span>
+                        </div>
+                        <div class="hygiene-item" draggable="true" data-product="tampons">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='35' y='20' width='30' height='60' rx='15' fill='%23ffffff' stroke='%23ff6b9d' stroke-width='3'/><rect x='40' y='25' width='20' height='50' fill='%23ffb6d9'/></svg>" alt="Tampons">
+                            <span>Tampons</span>
+                        </div>
+                        <div class="hygiene-item" draggable="true" data-product="menstrual-cup">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,20 Q70,30 70,50 Q70,70 50,80 Q30,70 30,50 Q30,30 50,20' fill='%23ffffff' stroke='%23ff6b9d' stroke-width='3'/><path d='M50,30 Q65,35 65,50 Q65,65 50,70 Q35,65 35,50 Q35,35 50,30' fill='%23ffb6d9'/></svg>" alt="Menstrual Cup">
+                            <span>Menstrual Cup</span>
+                        </div>
+                        <div class="hygiene-item" draggable="true" data-product="period-panties">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M20,20 L80,20 L70,80 Q50,90 30,80 Z' fill='%23ffffff' stroke='%23ff6b9d' stroke-width='3'/><path d='M30,30 L70,30 L65,70 Q50,75 35,70 Z' fill='%23ffb6d9'/></svg>" alt="Period Panties">
+                            <span>Period Panties</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hygiene-kit-bag" id="hygiene-kit-bag"></div>
+                    
+                    <p>💡 <strong>Pads</strong> stick to your underwear and absorb the blood.</p>
+                    <p>🧩 <strong>Tampons</strong> are inserted into the vagina to absorb blood.</p>
+                    <p>🥤 <strong>Menstrual cups</strong> collect the blood and can be reused.</p>
+                    <p>👙 <strong>Period panties</strong> are special underwear that absorbs blood.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()">Previous</button>
+                    <button class="nav-button" onclick="nextLevel()">Next</button>
+                </div>
+            </div>
+
+            <!-- Level 3: Hygiene Tips -->
+            <div class="level" id="level3">
+                <h2 class="level-title">Period Hygiene</h2>
+                <div class="level-content">
+                    <p>🛁 Keeping clean during your period is important for staying healthy and comfortable.</p>
+                    
+                    <div class="quiz-question">Which of these are good hygiene practices?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Changing your pad/tampon every 4-6 hours</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">Using the same pad all day</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Washing your hands before and after changing products</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Taking regular showers</div>
+                    </div>
+                    
+                    <p>🌸 <strong>Remember:</strong> It's normal to have some smell during your period, but good hygiene helps keep you fresh!</p>
+                    <p>💧 Drink plenty of water and eat healthy foods to feel your best.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()">Previous</button>
+                    <button class="nav-button" onclick="nextLevel()">Next</button>
+                </div>
+            </div>
+
+            <!-- Level 4: Tracking Your Period -->
+            <div class="level" id="level4">
+                <h2 class="level-title">Tracking Your Period</h2>
+                <div class="level-content">
+                    <p>📅 It's helpful to track your period so you know when to expect it next.</p>
+                    <p>🔮 Most periods come every 21-35 days and last 3-7 days.</p>
+                    
+                    <div class="calendar">
+                        <div class="calendar-day-header">Sun</div>
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+                        
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day period">7</div>
+                        
+                        <div class="calendar-day period">8</div>
+                        <div class="calendar-day period">9</div>
+                        <div class="calendar-day period">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day">14</div>
+                        
+                        <div class="calendar-day">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day">19</div>
+                        <div class="calendar-day">20</div>
+                        <div class="calendar-day">21</div>
+                    </div>
+                    
+                    <p>✨ You can use a calendar, diary, or a period tracking app to record when your period starts and stops.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()">Previous</button>
+                    <button class="nav-button" onclick="nextLevel()">Next</button>
+                </div>
+            </div>
+
+            <!-- Level 5: Feelings and Self-Care -->
+            <div class="level" id="level5">
+                <h2 class="level-title">Feelings and Self-Care</h2>
+                <div class="level-content">
+                    <p>💕 It's normal to have different feelings before or during your period.</p>
+                    <p>😊 Some girls feel happy, 😢 some feel sad, 😠 some feel angry, or 🤕 some have cramps.</p>
+                    
+                    <div class="quiz-question">What can you do to feel better?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Take a warm bath</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Use a heating pad for cramps</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">Do gentle exercises like walking</div>
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">Stay in bed all day</div>
+                    </div>
+                    
+                    <p>🍫 Eating healthy foods, getting enough sleep, and talking to someone you trust can all help.</p>
+                    <p>💖 Remember: Your feelings are valid, and it's okay to ask for help or comfort.</p>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()">Previous</button>
+                    <button class="nav-button" onclick="nextLevel()">Next</button>
+                </div>
+            </div>
+
+            <!-- Final Level: Celebration -->
+            <div class="level" id="final-level">
+                <h2 class="level-title">You Did It! 🌸</h2>
+                <div class="level-content">
+                    <p>🎉 Congratulations on completing your Blooming Adventure!</p>
+                    <p>💪 Now you know all about periods and how to take care of yourself.</p>
+                    <p>🌈 Remember, getting your period is a normal and healthy part of growing up.</p>
+                    <p>🤗 If you ever have questions, don't be afraid to ask a trusted adult.</p>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                        <div style="font-size: 4rem;">🌸🌺🌼🌹🌷</div>
+                        <p>You're amazing!</p>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-button" onclick="prevLevel()">Previous</button>
+                    <button class="nav-button" onclick="restartGame()">Play Again</button>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let currentLevel = 0;
+        const levels = [
+            'welcome-screen',
+            'level1',
+            'level2',
+            'level3',
+            'level4',
+            'level5',
+            'final-level'
+        ];
+        const totalLevels = levels.length - 1; // excluding welcome screen
+
+        // Initialize the game
+        window.onload = function() {
+            createFlowers();
+            showCharacterMessage("Hi there! Ready to learn about periods?", 1000);
+            
+            // Set up drag and drop for hygiene items
+            setupDragAndDrop();
+        };
+
+        // Create decorative flowers
+        function createFlowers() {
+            const decoration = document.getElementById('header-decoration');
+            const flowers = ['🌸', '🌺', '🌼', '🌹', '🌷', '💮', '🏵️'];
+            
+            for (let i = 0; i < 15; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.style.top = Math.random() * 100 + '%';
+                flower.style.left = Math.random() * 100 + '%';
+                flower.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.5 + Math.random() * 0.5})`;
+                flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                decoration.appendChild(flower);
+            }
+        }
+
+        // Show character message
+        function showCharacterMessage(message, delay = 0) {
+            const talkBubble = document.getElementById('character-talk');
+            talkBubble.textContent = message;
+            
+            setTimeout(() => {
+                talkBubble.classList.add('show');
+                
+                // Hide after some time
+                setTimeout(() => {
+                    talkBubble.classList.remove('show');
+                }, 5000);
+            }, delay);
+        }
+
+        // Start the game
+        function startGame() {
+            currentLevel = 1;
+            updateLevelDisplay();
+            showCharacterMessage("Let's learn about periods together!", 500);
+        }
+
+        // Go to next level
+        function nextLevel() {
+            if (currentLevel < totalLevels) {
+                currentLevel++;
+                updateLevelDisplay();
+                
+                // Special messages for certain levels
+                if (currentLevel === 2) {
+                    showCharacterMessage("Let's look at different period products!", 1000);
+                } else if (currentLevel === 4) {
+                    showCharacterMessage("Tracking your period is super helpful!", 1000);
+                } else if (currentLevel === totalLevels) {
+                    showCharacterMessage("You're doing amazing! Last level!", 1000);
+                }
+            } else if (currentLevel === totalLevels) {
+                currentLevel++;
+                updateLevelDisplay();
+                celebrateCompletion();
+                showCharacterMessage("Congratulations! You're now a period expert!", 1000);
+            }
+        }
+
+        // Go to previous level
+        function prevLevel() {
+            if (currentLevel > 0) {
+                // Don't go back to welcome screen from level 1
+                if (currentLevel === 1) {
+                    currentLevel = 0;
+                    updateLevelDisplay();
+                } else {
+                    currentLevel--;
+                    updateLevelDisplay();
+                }
+            }
+        }
+
+        // Update level display
+        function updateLevelDisplay() {
+            // Hide all levels
+            document.querySelectorAll('.level').forEach(level => {
+                level.classList.remove('active');
+            });
+            
+            // Show current level
+            document.getElementById(levels[currentLevel]).classList.add('active');
+            
+            // Update progress bar
+            const progress = currentLevel > 0 ? ((currentLevel - 1) / (totalLevels - 1)) * 100 : 0;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // Update previous button state
+            const prevButtons = document.querySelectorAll('.nav-button:disabled');
+            prevButtons.forEach(btn => {
+                if (currentLevel <= 1) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+        }
+
+        // Check quiz answers
+        function checkAnswer(element, isCorrect) {
+            // Remove any existing feedback
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+            });
+            
+            // Remove any existing classes
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark the answer
+            if (isCorrect) {
+                element.classList.add('correct');
+                showCharacterMessage("That's right! Great job!", 500);
+            } else {
+                element.classList.add('incorrect');
+                showCharacterMessage("Almost! Let's try again.", 500);
+            }
+        }
+
+        // Set up drag and drop for hygiene items
+        function setupDragAndDrop() {
+            const items = document.querySelectorAll('.hygiene-item');
+            const bag = document.getElementById('hygiene-kit-bag');
+            
+            if (!bag) return;
+            
+            items.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.product);
+                });
+            });
+            
+            bag.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '#ffd6e7';
+            });
+            
+            bag.addEventListener('dragleave', function() {
+                this.style.backgroundColor = '#ffecf2';
+            });
+            
+            bag.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '#ffecf2';
+                const product = e.dataTransfer.getData('text/plain');
+                showCharacterMessage(`Great choice! ${getProductMessage(product)}`, 500);
+            });
+        }
+
+        // Get product message for drag and drop
+        function getProductMessage(product) {
+            const messages = {
+                'pads': 'Pads are easy to use and great for beginners!',
+                'tampons': 'Tampons are discreet but need to be changed regularly.',
+                'menstrual-cup': 'Menstrual cups are eco-friendly and can be reused!',
+                'period-panties': 'Period panties are comfy and washable!'
+            };
+            return messages[product] || 'That\'s a good period product!';
+        }
+
+        // Celebration for completing the game
+        function celebrateCompletion() {
+            createConfetti();
+            setTimeout(createConfetti, 300);
+            setTimeout(createConfetti, 600);
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#ffb6d9', '#9d4b8b', '#ff9bc9', '#ff4785'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                
+                document.getElementById('game-screen').appendChild(confetti);
+                
+                // Animate
+                const animation = confetti.animate([
+                    { top: '-10px', opacity: 1, transform: 'rotate(0deg)' },
+                    { top: '100%', opacity: 0, transform: 'rotate(360deg)' }
+                ], {
+                    duration: 1000 + Math.random() * 2000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+                });
+                
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Restart the game
+        function restartGame() {
+            currentLevel = 0;
+            updateLevelDisplay();
+            showCharacterMessage("Let's play again! You're awesome!", 1000);
+            
+            // Reset all quiz options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>

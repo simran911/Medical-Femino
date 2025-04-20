@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Aiyana - AI Gynecology Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #ff6b8b;
+            --lavender: #e6e6fa;
+            --light-gray: #f5f5f5;
+            --dark-pink: #d45d79;
+            --light-pink: #fff0f0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        body {
+            background-color: #fff9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .floral-decoration {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .floral-1 {
+            top: 0;
+            left: 0;
+            width: 200px;
+        }
+        
+        .floral-2 {
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            transform: rotate(180deg);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header h1 {
+            color: var(--primary-pink);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .avatar-container {
+            margin: 20px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .avatar-character {
+            font-size: 3rem;
+            color: var(--primary-pink);
+        }
+        
+        .avatar-speech-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 200px;
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .option-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .option-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--lavender);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+        }
+        
+        .option-card h3 {
+            color: var(--primary-pink);
+            margin-bottom: 10px;
+        }
+        
+        .option-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: var(--primary-pink);
+        }
+        
+        /* Upload Modal Specific Styles */
+        .upload-area {
+            border: 2px dashed var(--primary-pink);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+        
+        .upload-area:hover {
+            background-color: rgba(255, 182, 193, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary-pink);
+            margin-bottom: 15px;
+        }
+        
+        .input-area {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .input-area input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .input-area button {
+            background-color: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .input-area button:hover {
+            background-color: #ff4d6d;
+        }
+        
+        /* Chat Modal Specific Styles */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--lavender);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .chat-title h2 {
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+        }
+        
+        .chat-title p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .user-message {
+            background-color: var(--primary-pink);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-time {
+            display: block;
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .disclaimer {
+            background-color: var(--light-pink);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .disclaimer i {
+            color: var(--primary-pink);
+        }
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 15px;
+            width: fit-content;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #aaa;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        /* Security Enhancements */
+        .blurred-image {
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        
+        .image-security-note {
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .secure-icon {
+            margin-right: 5px;
+        }
+        
+        .security-disclaimer {
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: var(--primary-pink);
+            border-left: 3px solid var(--primary-pink);
+        }
+        
+        .security-disclaimer i {
+            margin-right: 8px;
+        }
+        
+        .secure-image-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        /* Beautiful Response Formatting */
+        .medical-response {
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .response-header {
+            color: var(--dark-pink);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .response-header i {
+            margin-right: 8px;
+        }
+        
+        .response-section {
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-pink);
+        }
+        
+        .response-section-title {
+            color: var(--dark-pink);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .condition-list, .process-steps {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .condition-list li, .process-steps li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .condition-list li:before {
+            content: "•";
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        .process-steps li:before {
+            content: counter(step);
+            counter-increment: step;
+            background-color: var(--primary-pink);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            left: 0;
+        }
+        
+        .process-steps {
+            counter-reset: step;
+        }
+        
+        .important-note {
+            background-color: var(--light-pink);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--dark-pink);
+        }
+        
+        .note-title {
+            font-weight: 600;
+            color: var(--dark-pink);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .note-title i {
+            margin-right: 8px;
+        }
+        
+        .recommendation {
+            background-color: #e8f4f8;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #4d9fbf;
+        }
+        
+        .recommendation-title {
+            font-weight: 600;
+            color: #4d9fbf;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .recommendation-title i {
+            margin-right: 8px;
+        }
+        
+        .medical-term {
+            font-weight: 600;
+            color: var(--dark-pink);
+            border-bottom: 1px dotted var(--dark-pink);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .chat-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/floral1.png') }}" class="floral-decoration floral-1">
+        <img src="{{ url_for('static', filename='images/floral2.png') }}" class="floral-decoration floral-2">
+        
+        <div class="header">
+            <h1>Dr. Femino</h1>
+            <p>Your compassionate AI gynecology assistant</p>
+            
+            <div class="avatar-container">
+                <div class="avatar-character" id="avatar-character">
+                    <i class="fas fa-user-md"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="options-container">
+            <div class="option-card" id="upload-option">
+                <div class="option-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>Upload Image</h3>
+                <p>Share photos of any visual symptoms for analysis</p>
+            </div>
+            
+            <div class="option-card" id="symptoms-option">
+                <div class="option-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h3>Describe Symptoms</h3>
+                <p>Tell me what you're experiencing for guidance</p>
+            </div>
+            
+            <div class="option-card" id="chat-option">
+                <div class="option-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h3>Chat with Me</h3>
+                <p>Have a private conversation about your concerns</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Upload Modal -->
+    <div class="modal" id="upload-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-upload">&times;</span>
+            <h2>Upload Medical Report</h2>
+            <p>Upload an image of your medical report for analysis</p>
+            
+            <div class="security-disclaimer">
+                <i class="fas fa-lock"></i> All uploaded images are automatically blurred to protect your privacy.
+            </div>
+            
+            <div class="upload-area" id="drop-area">
+                <div class="upload-icon">
+                    <i class="fas fa-file-medical"></i>
+                </div>
+                <p>Drag & drop your report image here or click to browse</p>
+                <input type="file" id="file-input" accept="image/*" style="display: none;">
+            </div>
+            
+            <textarea id="report-question" 
+                      placeholder="What would you like to know about this report?" 
+                      rows="3"
+                      style="width: 100%; margin-top: 15px; padding: 10px; border-radius: 10px; border: 1px solid var(--primary-pink); resize: none;">
+            </textarea>
+            
+            <div id="preview-container" style="display: none;">
+                <h3>Image Preview</h3>
+                <div style="position: relative;">
+                    <img id="image-preview" class="blurred-image" 
+                         style="max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: 10px;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                                color: white; text-align: center; pointer-events: none;">
+                        <i class="fas fa-lock" style="font-size: 2em; margin-bottom: 5px;"></i>
+                        <p>Image secured for privacy</p>
+                    </div>
+                </div>
+                <div class="image-security-note">
+                    <i class="fas fa-shield-alt secure-icon"></i>
+                    Your image is permanently blurred to protect your privacy
+                </div>
+            </div>
+            
+            <div class="input-area" style="margin-top: 20px;">
+                <button id="analyze-report">Analyze Report</button>
+            </div>
+            
+            <div id="analysis-result" style="margin-top: 20px; display: none;">
+                <h3>Analysis</h3>
+                <div id="analysis-content" style="background-color: var(--lavender); padding: 15px; border-radius: 15px; margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat Modal -->
+    <div class="modal" id="chat-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-chat">&times;</span>
+            
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="chat-title">
+                    <h2>Dr. Femino</h2>
+                    <p>AI Gynecology Assistant</p>
+                </div>
+            </div>
+            
+            <div class="chat-container" id="chat-messages">
+                <div class="chat-message ai-message">
+                    <div class="medical-response">
+                        <div class="response-header">
+                            <i class="fas fa-heartbeat"></i> Welcome to Dr. Femino
+                        </div>
+                        <p>Hello there! I'm Dr. Femino, your AI gynecology assistant. I'm here to provide general information and guidance about women's health. Please remember that while I can offer helpful insights, I'm not a substitute for professional medical advice. How can I assist you today?</p>
+                    </div>
+                    <span class="message-time">Just now</span>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" placeholder="Type your health question here..." id="chat-input">
+                <button id="send-message"><i class="fas fa-paper-plane"></i> Send</button>
+            </div>
+            
+            <div class="disclaimer">
+                <i class="fas fa-info-circle"></i> This AI provides general information only and is not a substitute for professional medical advice.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const chatOption = document.getElementById('chat-option');
+        const chatModal = document.getElementById('chat-modal');
+        const closeChat = document.getElementById('close-chat');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const sendButton = document.getElementById('send-message');
+        
+        // Upload Modal Elements
+        const uploadOption = document.getElementById('upload-option');
+        const uploadModal = document.getElementById('upload-modal');
+        const closeUpload = document.getElementById('close-upload');
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+        const analyzeBtn = document.getElementById('analyze-report');
+        const analysisResult = document.getElementById('analysis-result');
+        const analysisContent = document.getElementById('analysis-content');
+        const reportQuestion = document.getElementById('report-question');
+        
+        // Avatar interaction
+        const avatarCharacter = document.getElementById('avatar-character');
+    
+        // Avatar Click Handler
+        avatarCharacter.addEventListener('click', () => {
+            // Create a temporary speech bubble
+            const bubble = document.createElement('div');
+            bubble.className = 'avatar-speech-bubble';
+            bubble.innerHTML = '<p>Hello! I\'m Dr. Femino, your AI gynecology assistant!</p>';
+            
+            // Position it near the avatar
+            bubble.style.position = 'absolute';
+            bubble.style.bottom = '100%';
+            bubble.style.left = '50%';
+            bubble.style.transform = 'translateX(-50%)';
+            bubble.style.backgroundColor = 'white';
+            bubble.style.padding = '10px 15px';
+            bubble.style.borderRadius = '15px';
+            bubble.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            bubble.style.width = '200px';
+            bubble.style.textAlign = 'center';
+            bubble.style.zIndex = '1000';
+            
+            // Add arrow
+            bubble.style.position = 'relative';
+            bubble.innerHTML += '<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid white;"></div>';
+            
+            // Add to container
+            document.querySelector('.avatar-container').appendChild(bubble);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                bubble.style.opacity = '0';
+                bubble.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => bubble.remove(), 500);
+            }, 3000);
+        });
+    
+        // Chat Modal Handlers
+        chatOption.addEventListener('click', () => {
+            chatModal.style.display = 'flex';
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        });
+        
+        closeChat.addEventListener('click', () => chatModal.style.display = 'none');
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === chatModal) chatModal.style.display = 'none';
+        });
+    
+        // Upload Modal Handlers
+        uploadOption.addEventListener('click', () => uploadModal.style.display = 'flex');
+        closeUpload.addEventListener('click', () => uploadModal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === uploadModal) uploadModal.style.display = 'none';
+        });
+    
+        // Image Upload Handlers
+        dropArea.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagePreview.src = event.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        // Drag and Drop Handlers
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+    
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+    
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+    
+        dropArea.addEventListener('drop', handleDrop, false);
+    
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    
+        function highlight() {
+            dropArea.style.backgroundColor = 'rgba(255, 182, 193, 0.2)';
+        }
+    
+        function unhighlight() {
+            dropArea.style.backgroundColor = '';
+        }
+    
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+        }
+    
+        // Analyze Report Handler
+        analyzeBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            const question = reportQuestion.value.trim();
+            
+            if (!file || !question) {
+                alert('Please upload an image and enter your question');
+                return;
+            }
+            
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('question', question);
+                
+                const response = await fetch('/analyze-report', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Close upload modal and open chat
+                    uploadModal.style.display = 'none';
+                    chatModal.style.display = 'flex';
+                    
+                    // Add user message
+                    addMessage(`I uploaded a medical report with question: "${question}"`, 'user');
+                    
+                    // Create beautiful response for AI
+                    const aiResponse = createAnalysisResponse(data.analysis);
+                    
+                    // Add AI message with formatted response
+                    addMessage(aiResponse, 'ai');
+                    
+                } else {
+                    throw new Error(data.error || 'Analysis failed');
+                }
+            } catch (error) {
+                addMessage("I'm sorry, there was an error analyzing your report. Please try again.", 'ai');
+                console.error("Error:", error);
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.innerHTML = 'Analyze Report';
+            }
+        });
+        
+        // Create beautiful analysis response
+        function createAnalysisResponse(analysisText) {
+            // Create the main container
+            const container = document.createElement('div');
+            container.className = 'medical-response';
+            
+            // Add header
+            const header = document.createElement('div');
+            header.className = 'response-header';
+            header.innerHTML = '<i class="fas fa-file-medical"></i> Report Analysis';
+            container.appendChild(header);
+            
+            // Add the image preview (blurred)
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'secure-image-container';
+            
+            const img = document.createElement('img');
+            img.src = imagePreview.src;
+            img.className = 'blurred-image';
+            img.style.maxWidth = '100%';
+            img.style.borderRadius = '10px';
+            img.style.marginBottom = '10px';
+            
+            const securityNote = document.createElement('div');
+            securityNote.className = 'image-security-note';
+            securityNote.innerHTML = '<i class="fas fa-shield-alt secure-icon"></i> Image permanently blurred to protect your privacy';
+            
+            imageContainer.appendChild(img);
+            imageContainer.appendChild(securityNote);
+            container.appendChild(imageContainer);
+            
+            // Process the analysis text
+            const sections = analysisText.split('###').filter(section => section.trim() !== '');
+            
+            sections.forEach(section => {
+                const [title, ...contentParts] = section.split('\n').filter(part => part.trim() !== '');
+                const content = contentParts.join('\n');
+                
+                if (!title) return;
+                
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'response-section';
+                
+                // Add title
+                const titleElement = document.createElement('div');
+                titleElement.className = 'response-section-title';
+                titleElement.textContent = title.trim();
+                sectionDiv.appendChild(titleElement);
+                
+                // Process content
+                if (content) {
+                    // Replace markdown-like formatting
+                    let formattedContent = content
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/\[!(.*?)\]/g, '<div class="important-note"><div class="note-title"><i class="fas fa-exclamation-circle"></i> Important</div>$1</div>')
+                        .replace(/\[✓(.*?)\]/g, '<div class="recommendation"><div class="recommendation-title"><i class="fas fa-check-circle"></i> Recommendation</div>$1</div>')
+                        .replace(/`(.*?)`/g, '<span class="medical-term">$1</span>');
+                    
+                    // Check for lists
+                    if (content.includes('- ') || content.includes('* ') || content.includes('1. ')) {
+                        const listElement = document.createElement(content.includes('1. ') ? 'ol' : 'ul');
+                        listElement.className = content.includes('1. ') ? 'process-steps' : 'condition-list';
+                        
+                        // Split list items
+                        const items = formattedContent.split(/\n\s*[-*]\s+|\n\s*\d+\.\s+/).filter(item => item.trim() !== '');
+                        
+                        items.forEach(item => {
+                            const li = document.createElement('li');
+                            li.innerHTML = item.trim();
+                            listElement.appendChild(li);
+                        });
+                        
+                        sectionDiv.appendChild(listElement);
+                    } else {
+                        // Regular paragraph content
+                        const contentElement = document.createElement('p');
+                        contentElement.innerHTML = formattedContent.trim();
+                        sectionDiv.appendChild(contentElement);
+                    }
+                }
+                
+                container.appendChild(sectionDiv);
+            });
+            
+            // Add disclaimer
+            const disclaimer = document.createElement('div');
+            disclaimer.className = 'important-note';
+            disclaimer.innerHTML = `
+                <div class="note-title"><i class="fas fa-exclamation-circle"></i> Important Note</div>
+                <p>This analysis is provided for informational purposes only and should not replace professional medical advice. Please consult with your healthcare provider for diagnosis and treatment.</p>
+            `;
+            container.appendChild(disclaimer);
+            
+            return container;
+        }
+        
+        // Chat Functions
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message === '') return;
+            
+            addMessage(message, 'user');
+            chatInput.value = '';
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: message })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    removeTypingIndicator();
+                    // Format the AI response
+                    const formattedResponse = formatChatResponse(data.answer);
+                    addMessage(formattedResponse, 'ai');
+                } else {
+                    throw new Error(data.error || 'Failed to get response');
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage("I'm sorry, I'm having trouble connecting to my knowledge base. Please try again later.", 'ai');
+                console.error("Error:", error);
+            }
+        }
+        
+        // Format regular chat responses
+        function formatChatResponse(responseText) {
+            const container = document.createElement('div');
+            container.className = 'medical-response';
+            
+            // Split response into paragraphs
+            const paragraphs = responseText.split('\n\n').filter(p => p.trim() !== '');
+            
+            paragraphs.forEach((para, index) => {
+                // First paragraph gets special header treatment
+                if (index === 0) {
+                    const header = document.createElement('div');
+                    header.className = 'response-header';
+                    header.innerHTML = '<i class="fas fa-comment-medical"></i> ' + para;
+                    container.appendChild(header);
+                } 
+                // Check for important notes
+                else if (para.startsWith('!')) {
+                    const note = document.createElement('div');
+                    note.className = 'important-note';
+                    note.innerHTML = `
+                        <div class="note-title"><i class="fas fa-exclamation-circle"></i> Important</div>
+                        <p>${para.substring(1).trim()}</p>
+                    `;
+                    container.appendChild(note);
+                }
+                // Check for recommendations
+                else if (para.startsWith('✓')) {
+                    const rec = document.createElement('div');
+                    rec.className = 'recommendation';
+                    rec.innerHTML = `
+                        <div class="recommendation-title"><i class="fas fa-check-circle"></i> Recommendation</div>
+                        <p>${para.substring(1).trim()}</p>
+                    `;
+                    container.appendChild(rec);
+                }
+                // Regular paragraph
+                else {
+                    const p = document.createElement('p');
+                    // Format any special markdown
+                    p.innerHTML = para
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/`(.*?)`/g, '<span class="medical-term">$1</span>');
+                    container.appendChild(p);
+                }
+            });
+            
+            return container;
+        }
+        
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}-message`;
+            
+            // Check if content is already a DOM element
+            if (content instanceof HTMLElement) {
+                messageDiv.appendChild(content);
+            } else {
+                // Regular text content
+                const messageContent = document.createElement('div');
+                messageContent.className = 'medical-response';
+                messageContent.innerHTML = content.replace(/\n/g, '<br>');
+                messageDiv.appendChild(messageContent);
+            }
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = getCurrentTime();
+            messageDiv.appendChild(timeSpan);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing-indicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                typingDiv.appendChild(dot);
+            }
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Event listeners for sending messages
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
