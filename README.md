@@ -50,11 +50,11 @@ Frontend : HTML/CSS/JavaScript
 ![Image](https://github.com/user-attachments/assets/aac59833-edfd-47ba-ae68-31fff89f9a69)
 ![Image](https://github.com/user-attachments/assets/02dbd78b-2ffb-45ae-9e08-86db34d6f9ae)
 -Gyna chatbot
-![Image](https://github.com/user-attachments/assets/074c35e2-390d-4080-88af-f9ce7726c97e)
 ![Image](https://github.com/user-attachments/assets/6310c3b2-3098-4986-b02e-ae481c57df97)
+![Image](https://github.com/user-attachments/assets/074c35e2-390d-4080-88af-f9ce7726c97e)
 -Ai Safety Alert
-![Image](https://github.com/user-attachments/assets/9f85643f-b8d9-4faa-af07-732849c77df7)
 ![Image](https://github.com/user-attachments/assets/e32884bc-2710-4801-9bcb-65807e5be516)
+![Image](https://github.com/user-attachments/assets/9f85643f-b8d9-4faa-af07-732849c77df7)
 ![Image](https://github.com/user-attachments/assets/8326c89e-013b-4edd-8730-f64983cf7bff)
 ![Image](https://github.com/user-attachments/assets/0edfe3d8-e3b4-4bc6-b25e-62fb2d6ee70e)
 
