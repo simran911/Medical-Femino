@@ -35,7 +35,16 @@ Frontend : HTML/CSS/JavaScript
 ---
 
 ## Snapshots
+-Landing page
 ![Image](https://github.com/user-attachments/assets/08872364-0c0a-46ae-9a5c-96a6dc264d39)
+-Multilingual page
+![Image](https://github.com/user-attachments/assets/113016e3-a8c7-4ba9-8a25-0d930d717c1b)
+-Gyna chatbot
+![Image](https://github.com/user-attachments/assets/a8a49ae5-276b-4585-bcb1-e7527c1db119)
+-Ai Gyna
+![Image](https://github.com/user-attachments/assets/972f283e-b5e1-450c-b1b1-9ecb90ce06f8)
+-Image and report Analyzer
+
 
 ## 🚀 Getting Started
 
